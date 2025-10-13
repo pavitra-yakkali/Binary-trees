@@ -1,0 +1,50 @@
+import java.util.*;
+
+// Definition for a binary tree node
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+public class Solution {
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        PostOrderRec(root, result);
+        return result;
+    }
+
+    private void PostOrderRec(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+
+        PostOrderRec(root.left, result);   // Visit left subtree
+        PostOrderRec(root.right, result);  // Visit right subtree
+        result.add(root.val);              // Visit root
+    }
+
+    // 🌳 main method for testing
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+
+        /*
+                1
+               / \
+              2   3
+             / \
+            4   5
+        */
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        // Perform postorder traversal
+        List<Integer> result = sol.postorderTraversal(root);
+        System.out.println("Postorder Traversal: " + result);
+    }
+}
