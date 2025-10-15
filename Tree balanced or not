@@ -1,0 +1,63 @@
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+
+    TreeNode(int val) {
+        this.val = val;
+        left = right = null;
+    }
+}
+
+class Solution {
+    public boolean isBalanced(TreeNode root) {
+        if (root == null) return true;
+        return height(root) != -1;
+    }
+
+    public int height(TreeNode node) {
+        if (node == null) return 0;
+        int left = height(node.left);
+        int right = height(node.right);
+        int bf = Math.abs(left - right);
+        if (bf > 1 || left == -1 || right == -1) return -1;
+        return 1 + Math.max(left, right);
+    }
+
+    // Main method to test the code
+    public static void main(String[] args) {
+        Solution sol = new Solution();
+
+        // Example tree:
+        //        1
+        //       / \
+        //      2   3
+        //     / \
+        //    4   5
+
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(3);
+        root.left.left = new TreeNode(4);
+        root.left.right = new TreeNode(5);
+
+        boolean result = sol.isBalanced(root);
+        System.out.println("Is the binary tree balanced? " + result);
+    }
+}
+
+/*
+🧠 TIME COMPLEXITY:
+-------------------
+O(N)
+→ Each node is visited exactly once.
+→ For each node, we calculate its height and balance factor in constant time.
+
+🧩 SPACE COMPLEXITY:
+--------------------
+O(H)
+→ Where H is the height of the binary tree.
+→ Due to recursion stack.
+→ Worst case (skewed tree): O(N)
+→ Best case (balanced tree): O(log N)
+*/
