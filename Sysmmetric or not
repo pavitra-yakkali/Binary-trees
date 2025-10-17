@@ -1,0 +1,78 @@
+import java.util.*;
+
+// Definition for a binary tree node
+class TreeNode {
+    int val;
+    TreeNode left, right;
+
+    TreeNode(int val) {
+        this.val = val;
+    }
+}
+
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+
+        Queue<TreeNode> lt = new LinkedList<>();
+        Queue<TreeNode> rt = new LinkedList<>();
+
+        lt.add(root.left);
+        rt.add(root.right);
+
+        while (!lt.isEmpty() && !rt.isEmpty()) {
+            TreeNode left = lt.poll();
+            TreeNode right = rt.poll();
+
+            if (left == null && right == null) continue;
+            if (left == null || right == null) return false;
+            if (left.val != right.val) return false;
+
+            // Add children in opposite order for symmetry check
+            lt.add(left.left);
+            lt.add(left.right);
+
+            rt.add(right.right);
+            rt.add(right.left);
+        }
+
+        return true;
+    }
+
+    public static void main(String[] args) {
+        // Example 1: Symmetric Tree
+        /*
+                1
+               / \
+              2   2
+             / \ / \
+            3  4 4  3
+        */
+        TreeNode root1 = new TreeNode(1);
+        root1.left = new TreeNode(2);
+        root1.right = new TreeNode(2);
+        root1.left.left = new TreeNode(3);
+        root1.left.right = new TreeNode(4);
+        root1.right.left = new TreeNode(4);
+        root1.right.right = new TreeNode(3);
+
+        Solution sol = new Solution();
+        System.out.println("Tree 1 is symmetric: " + sol.isSymmetric(root1)); // true
+
+        // Example 2: Non-symmetric Tree
+        /*
+                1
+               / \
+              2   2
+               \   \
+                3   3
+        */
+        TreeNode root2 = new TreeNode(1);
+        root2.left = new TreeNode(2);
+        root2.right = new TreeNode(2);
+        root2.left.right = new TreeNode(3);
+        root2.right.right = new TreeNode(3);
+
+        System.out.println("Tree 2 is symmetric: " + sol.isSymmetric(root2)); // false
+    }
+}
